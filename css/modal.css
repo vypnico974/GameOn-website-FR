@@ -215,7 +215,7 @@ input {
 .birthdate-error,
 .quantity-error,
 .location-error,
-.cgu-error {
+.use-error {
   font-size: 0.6em;
   color: red;
   display: block;
