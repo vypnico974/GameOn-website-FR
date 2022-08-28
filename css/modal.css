@@ -14,7 +14,7 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  /* background-image: url("background.png"); */
+  /* background-image: url("background.png"); pas d'image */
   font-family: var(--font-default);
   font-size: 18px;
   max-width: 1300px;
@@ -225,7 +225,14 @@ input {
   line-height: 1em;
   transition: 0.2s;
 }
-
+.hide {
+  opacity: 0;
+}
+.reserveSend {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+}
 
 .formData[data-error]::after {
   content: attr(data-error);
@@ -424,7 +431,7 @@ input[data-error]::after {
   font-size: 16px;
 }
 .hero-section {
-  min-height: 93vh;
+ /* min-height: 93vh; */
   border-radius: 10px;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -497,6 +504,14 @@ footer {
   padding-right: 2vw;
   margin: 0 20px;
 }
+
+@media screen and (max-width: 960px) {
+  .hero-headline {
+    font-size: 4.7rem; /* pour que le titre Marathon nationale ne sort pas du cadre   */
+  } 
+
+}
+
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;

@@ -23,7 +23,8 @@ const radios = document.querySelectorAll(".checkbox-input[type=radio]");
 const conditionsGenerales = document.getElementById("checkbox1");
 const btnSubmit = document.querySelector(".btn-submit");
 const btnSignUp = document.querySelector(".btn-signup");
-/* Les messages d'erreur dans une constante */
+const confirm = document.getElementById("confirm");
+/* Les messages d'erreurs dans une constante */
 const messagesError = {
   lastNameError: 'Veuillez entrer 2 caractères ou plus pour le champ du nom.',
   firstNameError: 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.',
@@ -62,7 +63,9 @@ function validateInputs() {
 
 // vérification du prénom 
 function validateFirst() {
-  const firstLength = first.value.length;
+  /*  A voir si rajout ***************************/
+ /*  let Test = first.value.trim(' '); */
+  /****** ***********************/
   /* expressions régulières(regex) 
   /^ pour début   $/ pour fin  
   [A-zÀ-ú-] les lettres minuscule et majuscule avec accent possible et
@@ -71,18 +74,20 @@ function validateFirst() {
   const regex = /^[A-zÀ-ú'-]{2,}$/;
   if (regex.test(first.value) === false) {
     // affichage du message d'erreur pour le prénom 
-    document.querySelector('.first-error').innerText =
+    document.querySelector(".first-error").innerText =
     messagesError.firstNameError;
     return false;
   }
   /* pas de message d'erreur qui s'affichage  */
-  document.querySelector('.first-error').innerText = '';
+  document.querySelector(".first-error").innerText = '';
   return true;
 }
 
 // vérification du nom 
 function validateLast() {
-  const firstLength = last.value.length; 
+    /*  A voir si rajout ***************************/
+ /*  let Test = first.value.trim(' '); */
+  /****** ***********************/
   /* expressions régulières(regex)  /^ pour début   $/ pour fin   
   [A-zÀ-ú- '] les lettres minuscule et majuscule avec accent possible et
    ainsi que tiret apostrophe espace sont autorisés
@@ -90,12 +95,12 @@ function validateLast() {
   const regex = /^[A-zÀ-ú-' ]{2,}$/;
   if (regex.test(last.value) === false) {
     /* affichage du message d'erreur pour le nom */
-    document.querySelector('.last-error').innerText =
+    document.querySelector(".last-error").innerText =
     messagesError.firstNameError;
     return false;
   }
   /* pas de message d'erreur qui s'affichage  */
-  document.querySelector('.last-error').innerText = '';
+  document.querySelector(".last-error").innerText = '';
   return true;
 }
 
@@ -170,11 +175,58 @@ function validateConditions() {
   return false;
 }
 
-// évènement du submit formulaire et vérifications saisies du formulaire
+/* vérification que les saisies du formulaires sont validées */
+function validateForm() {
+  const formData = document.querySelectorAll('.formData');
+  const textLabel = document.querySelector('.text-label');
+  const confirm = document.getElementById("confirm");
+  if (
+    validateFirst() &&
+    validateLast() &&
+    validateEmail() &&
+    validateQuantity() &&
+    validateLocation() &&
+    validateConditions() &&
+    validateBirthdate() === true
+  ) {
+    /****   masquer le formulaire de saisies */
+    /* pour tous les classes formData du formulaire, rajout de classe hide*/
+    for (const forms of formData) {
+      forms.classList.add("hide");
+    }
+    textLabel.classList.add("hide"); 
+    /***  affichage à la place d'un message de confirmation d'envoi ****** */
+    btnSubmit.value = "Fermer";
+    confirm.classList.remove("hide") ;
+   
+    btnSubmit.addEventListener('click', (e) => {
+     // e.preventDefault();
+      const formData = document.querySelectorAll('.formData');
+      const textLabel = document.querySelector('.text-label');
+      const confirm = document.getElementById("confirm");
+      closeModal();
+      document.getElementById("reserve").reset();
+      for (const forms of formData) {
+        forms.classList.remove('hide'); /* pour afficher les div du formulaire  */
+      }
+      textLabel.classList.remove('hide');
+     
+      btnSubmit.value = "C'est parti";
+      confirm.classList.add("hide") ;
+      /*  pour réinitialiser les variables */
+      location.reload(); 
+    });
+  }
+}
+
+/* évènement du submit formulaire et vérifications saisies du formulaire */
 form.addEventListener('submit', (e) => { 
     e.preventDefault();  /* ne pas recharger la modale avec le click submit */
     validateInputs();
-   
-  });
+    validateForm();   
+});
+
+
+
 
 
