@@ -20,7 +20,8 @@ const email = document.getElementById("email");
 const birthdate = document.getElementById("birthdate");
 const quantity = document.getElementById("quantity");
 const radios = document.querySelectorAll(".checkbox-input[type=radio]");
-const conditionsGenerales = document.getElementById("checkbox1");
+const generalCondition = document.getElementById("checkbox1");
+const nextEven = document.getElementById("checkbox2");
 const btnSubmit = document.querySelector(".btn-submit");
 const btnSignUp = document.querySelector(".btn-signup");
 const confirm = document.getElementById("confirm");
@@ -34,7 +35,23 @@ const messagesError = {
   locationError: 'Veuillez choisir un tournoi.',
   useError: "Vous devez vérifier que vous acceptez les termes et conditions.",
 };
-
+/* la location des tournois dans une liste */
+const tournament = ["New York","San Francisco", "Seattle","Chicago","Boston","Portland"];
+/*  objet contenant toutes données saisies dans le formulaire
+    avec valdité ou erreur */
+const responses = {
+  isValid: false,
+  data: {
+    firstName: first.value,
+    lastName: last.value,
+    email: email.value,
+    birthdate: birthdate.value,
+    quantity: quantity.value,
+    location: "",
+    cgu: "non coché",
+    next: nextEven.value
+  }   
+}
 
 /*  évèvement par le click d'ouverture et de fermeture de la modale  */
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
@@ -49,7 +66,6 @@ function closeModal() {
   modalbg.style.display = "none";
 }
 
-
 /* fonction pour vérifier tous les champs du formulaire */
 function validateInputs() {
   validateFirst(); 
@@ -61,24 +77,25 @@ function validateInputs() {
   validateConditions();
 }
 
-// vérification du prénom 
+/* vérification du prénom */
 function validateFirst() {
   /* expressions régulières(regex) /^ pour début   $/ pour fin 
   [A-zÀ-ú-] les lettres minuscule et majuscule avec accent et tiret sont possible 
   {2,} minimun 2 autorisés    */
-  const regex = /^[A-zÀ-ú'-]{2,}$/;
-  if (regex.test(first.value) === false) {
-    // affichage du message d'erreur pour le prénom 
+  const regex = /^[A-zÀ-ú-']{2,}$/;
+  if (!regex.test(first.value)) {
     document.querySelector(".first-error").innerText =
     messagesError.firstNameError;
+    formData[0].setAttribute('data-error-visible', 'true'); /* bordure rouge  */
     return false;
   }
   /* pas de message d'erreur qui s'affichage  */
   document.querySelector(".first-error").innerText = '';
+  formData[0].removeAttribute('data-error-visible'); /* pas de bordure rouge */
   return true;
 }
 
-// vérification du nom 
+/* vérification du nom */
 function validateLast() {
   /* supprime n’importe quel symbole d’espacement, autorise les noms à particule   */
   const space = last.value.replace(/\s+/g, '') 
@@ -86,14 +103,16 @@ function validateLast() {
   [A-zÀ-ú-] les lettres minuscule et majuscule avec accent et tiret sont possible 
   {2,} minimun 2 autorisés */             
   const regex = /^[A-zÀ-ú-']{2,}$/;
-  if (regex.test(space) === false) {
+  if (!regex.test(space)) {
     /* affichage du message d'erreur pour le nom */
     document.querySelector(".last-error").innerText =
-    messagesError.firstNameError;
+    messagesError.lastNameError;
+    formData[1].setAttribute('data-error-visible', 'true'); /* bordure rouge  */
     return false;
   }
   /* pas de message d'erreur qui s'affichage  */
   document.querySelector(".last-error").innerText = '';
+  formData[1].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
   return true;
 }
 
@@ -101,31 +120,35 @@ function validateLast() {
 function validateEmail() {
   /* caractère alphanumerique (sans accent) avant et après le "@" et le point  */
   const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/;
-  if (regex.test(email.value) === false) {
+  if (!regex.test(email.value)) {
     /* affichage du message d'erreur pour email */
     document.querySelector('.email-error').innerText = messagesError.emailError;
+    formData[2].setAttribute('data-error-visible', 'true'); /* bordure rouge  */
     return false;
   }
   /* pas de message d'erreur qui s'affichage  */
   document.querySelector('.email-error').innerText = '';
+  formData[0].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
   return true;
 }
 
 /* Vérification date de naissance */
 function validateBirthdate() {
   const regex = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/; /* AAAA-MM-JJ  */ 
-/*condition : date saisie doit être inférieur à la date jour et au format AAAA-MM-JJ*/
+  /*date saisie doit être inférieur à la date jour et au format AAAA-MM-JJ*/
   if ((new Date(birthdate.value)) > (new Date()) ||
-      (regex.test(birthdate.value) === false)
+      (!regex.test(birthdate.value))
       ){
      /* affichage du message d'erreur pour date de naissance */
      document.querySelector('.birthdate-error').innerText =
      messagesError.birthdateError;
+     formData[3].setAttribute('data-error-visible', 'true'); /* bordure rouge  */
      return false;   
   }
   else{
     /* pas de message d'erreur qui s'affichage  */
     document.querySelector('.birthdate-error').innerText = '';
+    formData[3].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
     return true;    
   }
 }
@@ -133,42 +156,60 @@ function validateBirthdate() {
 /* Vérification date de naissance */
 function validateQuantity() {  
   const regex = /^[0-9]{1,2}$/; /* 0 à 99 */
-  if (regex.test(quantity.value) === false) {
+  if (!regex.test(quantity.value)) {
     /* affichage du message d'erreur pour tournoi */
     document.querySelector('.quantity-error').innerText =
-      messagesError.quantityError;
+    messagesError.quantityError;
+    formData[4].setAttribute('data-error-visible', 'true'); /* bordure rouge  */
     return false;
   }
   /* pas de message d'erreur qui s'affichage  */
   document.querySelector('.quantity-error').innerText = '';
+  //quantity.classList.remove("color-error");
+  formData[4].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
   return true;
 }
 
-/* vérification qu'une location est sélectionnée */
+/* vérification qu'une case location est sélectionnée */
 function validateLocation() {
-  for (let radio of radios) {
-    if (radio.checked === true) {
+  let i = 0;
+  for (let radio of radios) {    
+    if (radio.checked) {
       /* pas d'affichage du message d'erreur location*/
       document.querySelector('.location-error').innerText = '';
+      responses.data.location = tournament[i]; /* le lieu du tournoi */
       return true;
     }
+    i++;
   }
   /* affichage du message d'erreur location*/
   document.querySelector('.location-error').innerText =
     messagesError.locationError;
-  return false;
+    return false;
 }
 
-// Vérification Conditions d'utilisation
+/* Vérification Conditions d'utilisation */
 function validateConditions() {
-  if (conditionsGenerales.checked === true) {
+  if (generalCondition.checked) {
      /* pas d'affichage du message d'erreur conditions d'utilisation*/
     document.querySelector('.use-error').innerText = '';
+    responses.data.cgu = "coché";
     return true;
   }
   /* affichage du message d'erreur conditions d'utilisation*/
-  document.querySelector('.use-error').innerText = messagesError.useError;
-  return false;
+    document.querySelector('.use-error').innerText = messagesError.useError;
+    responses.data.cgu = "non coché";
+    return false;
+}
+
+/* case prochaine évenement */
+function checkEvent() {
+  if (nextEven.checked) {    
+    responses.data.next = "coché";
+    return true;
+  }
+    responses.data.next = "non coché";
+    return false;
 }
 
 /* vérification que les saisies du formulaires sont validées */
@@ -176,6 +217,16 @@ function validateForm() {
   const formData = document.querySelectorAll('.formData');
   const textLabel = document.querySelector('.text-label');
   const confirm = document.getElementById("confirm");
+  /*  donnnées saisie inséréess dans l'objet du formulaire  */
+  responses.data.firstName = first.value;
+  responses.data.lastName = last.value;
+  responses.data.email = email.value;
+  responses.data.birthdate = birthdate.value;
+  responses.data.quantity = quantity.value;
+  checkEvent();
+
+  console.log(responses); /* phase développement contrôle des étapes   */
+
   if (
     validateFirst() &&
     validateLast() &&
@@ -185,17 +236,17 @@ function validateForm() {
     validateConditions() &&
     validateBirthdate() === true
   ) {
-    /****   masquer le formulaire de saisies */
+    responses.isValid = true;
+     /****   masquer le formulaire de saisies */
     /* pour tous les classes formData du formulaire, rajout de classe hide*/
     for (const forms of formData) {
       forms.classList.add("hide");
     }
     textLabel.classList.add("hide"); 
     /***  affichage à la place d'un message de confirmation d'envoi ****** */
-    btnSubmit.value = "Fermer";
+    btnSubmit.value = "Fermer"; /* renomme le bouton */
     confirm.classList.remove("hide") ;   
     btnSubmit.addEventListener('click', (e) => {
-     // e.preventDefault();
       const formData = document.querySelectorAll('.formData');
       const textLabel = document.querySelector('.text-label');
       const confirm = document.getElementById("confirm");
@@ -211,6 +262,7 @@ function validateForm() {
       location.reload(); 
     });
   }
+  console.log(responses);  /* phase développement contrôle des étapes   */
 }
 
 /* évènement du submit formulaire et vérifications saisies du formulaire */
