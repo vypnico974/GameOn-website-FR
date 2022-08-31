@@ -35,10 +35,9 @@ const messagesError = {
   locationError: 'Veuillez choisir un tournoi.',
   useError: "Vous devez vérifier que vous acceptez les termes et conditions.",
 };
-/* la location des tournois dans une liste */
+/* la localisation des tournois dans une liste */
 const tournament = ["New York","San Francisco", "Seattle","Chicago","Boston","Portland"];
-/*  objet contenant toutes données saisies dans le formulaire
-    avec valdité ou erreur */
+/*  objet contenant toutes données saisies dans le formulaire validité ou erreur */
 const responses = {
   isValid: false,
   data: {
@@ -56,6 +55,7 @@ const responses = {
 /*  évèvement par le click d'ouverture et de fermeture de la modale  */
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 closeBtn.forEach((btn) => btn.addEventListener("click", closeModal));
+
 /* lancement de la modale formulaire   */
 function launchModal() {
   modalbg.style.display = "block";
@@ -80,7 +80,7 @@ function validateInputs() {
 /* vérification du prénom */
 function validateFirst() {
   /* expressions régulières(regex) /^ pour début   $/ pour fin 
-  [A-zÀ-ú-] les lettres minuscule et majuscule avec accent et tiret sont possible 
+  [A-zÀ-ú-] les lettres minuscule et majuscule avec accent,tiret et apostrophe sont possible 
   {2,} minimun 2 autorisés    */
   const regex = /^[A-zÀ-ú-']{2,}$/;
   if (!regex.test(first.value)) {
@@ -100,7 +100,7 @@ function validateLast() {
   /* supprime n’importe quel symbole d’espacement, autorise les noms à particule   */
   const space = last.value.replace(/\s+/g, '') 
   /* expressions régulières(regex) /^ pour début   $/ pour fin 
-  [A-zÀ-ú-] les lettres minuscule et majuscule avec accent et tiret sont possible 
+  [A-zÀ-ú-] les lettres minuscule et majuscule avec accent,tiret et apostrophe sont possible 
   {2,} minimun 2 autorisés */             
   const regex = /^[A-zÀ-ú-']{2,}$/;
   if (!regex.test(space)) {
@@ -128,7 +128,7 @@ function validateEmail() {
   }
   /* pas de message d'erreur qui s'affichage  */
   document.querySelector('.email-error').innerText = '';
-  formData[0].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
+  formData[2].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
   return true;
 }
 
@@ -165,12 +165,11 @@ function validateQuantity() {
   }
   /* pas de message d'erreur qui s'affichage  */
   document.querySelector('.quantity-error').innerText = '';
-  //quantity.classList.remove("color-error");
   formData[4].removeAttribute('data-error-visible'); /* pas de bordure rouge  */
   return true;
 }
 
-/* vérification qu'une case location est sélectionnée */
+/* vérification qu'une case localisation est sélectionnée */
 function validateLocation() {
   let i = 0;
   for (let radio of radios) {    
@@ -202,14 +201,14 @@ function validateConditions() {
     return false;
 }
 
-/* case prochaine évenement */
+/* case prochaine évenement pour récupérer coché ou non coché */
 function checkEvent() {
   if (nextEven.checked) {    
-    responses.data.next = "coché";
-    return true;
+      responses.data.next = "coché";
+      }
+  else{
+      responses.data.next = "non coché";
   }
-    responses.data.next = "non coché";
-    return false;
 }
 
 /* vérification que les saisies du formulaires sont validées */

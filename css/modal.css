@@ -174,10 +174,7 @@ input {
 .hide {
   opacity: 0;
 }
-.color-error{
-  border: 2px solid #e54858;
-}
-.reserveSend {
+  .reserveSend {
   position: absolute;
   top: 50%;
   text-align: center;
@@ -468,7 +465,6 @@ footer {
   }
 
 }
-
 @media screen and (max-width: 800px) {
   .hero-section {
     display: block;
@@ -507,7 +503,6 @@ footer {
     text-align: center;
   }
 }
-
 @media screen and (max-width: 768px) {
   .topnav a {
     display: none;
@@ -517,7 +512,6 @@ footer {
     display: block;
   }
 }
-
 @media screen and (max-width: 768px) {
   .topnav.responsive {
     position: relative;
@@ -533,7 +527,6 @@ footer {
     text-align: left;
   }
 }
-
 @media screen and (max-width: 600px) {
   .hero-content{
     padding: 0;
@@ -549,8 +542,6 @@ footer {
    margin-top: 20px;
   }
 }  
-
-
 @media screen and (max-width: 540px) {
   .topnav a {
     display: none;
@@ -561,10 +552,6 @@ footer {
    /* margin-top: -15px; */
   }
 } 
-
-
-
-
 @keyframes modalopen {
   from {
     opacity: 0;
