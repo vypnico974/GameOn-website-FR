@@ -203,12 +203,7 @@ function validateConditions() {
 
 /* case prochaine évenement pour récupérer coché ou non coché */
 function checkEvent() {
-  if (nextEven.checked) {    
-      responses.data.next = "coché";
-      }
-  else{
-      responses.data.next = "non coché";
-  }
+  (nextEven.checked) ? responses.data.next = "coché" : responses.data.next = "non coché";
 }
 
 /* vérification que les saisies du formulaires sont validées */
