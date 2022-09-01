@@ -38,7 +38,7 @@ const messagesError = {
 /* la localisation des tournois dans une liste */
 const tournament = ["New York","San Francisco", "Seattle","Chicago","Boston","Portland"];
 /*  objet contenant toutes données saisies dans le formulaire validité ou erreur */
-const responses = {
+let responses = {
   isValid: false,
   data: {
     firstName: "",
@@ -47,8 +47,8 @@ const responses = {
     birthdate: "",
     quantity: "",
     location: "",
-    cgu: "coché",
-    next: "non coché"
+    cgu: "non coché",
+    next: nextEven.value
   }   
 }
 
