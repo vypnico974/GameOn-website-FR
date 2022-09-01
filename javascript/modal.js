@@ -41,14 +41,14 @@ const tournament = ["New York","San Francisco", "Seattle","Chicago","Boston","Po
 const responses = {
   isValid: false,
   data: {
-    firstName: first.value,
-    lastName: last.value,
-    email: email.value,
-    birthdate: birthdate.value,
-    quantity: quantity.value,
+    firstName: "",
+    lastName: "",
+    email: "",
+    birthdate: "",
+    quantity: "",
     location: "",
-    cgu: "non coché",
-    next: nextEven.value
+    cgu: "coché",
+    next: "non coché"
   }   
 }
 
