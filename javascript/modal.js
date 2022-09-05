@@ -48,7 +48,7 @@ let responses = {
     quantity: "",
     location: "",
     cgu: "non coché",
-    next: nextEven.value
+    next: false
   }   
 }
 
@@ -211,12 +211,13 @@ function validateForm() {
   const formData = document.querySelectorAll('.formData');
   const textLabel = document.querySelector('.text-label');
   const confirm = document.getElementById("confirm");
-  /*  donnnées saisie inséréess dans l'objet du formulaire  */
+  /*  donnnées saisie insérées dans l'objet responses du formulaire  */
   responses.data.firstName = first.value;
   responses.data.lastName = last.value;
   responses.data.email = email.value;
   responses.data.birthdate = birthdate.value;
   responses.data.quantity = quantity.value;
+  responses.data.next = nextEven.value;
   checkEvent();
 
   console.log(responses); /* phase développement contrôle des étapes   */
