@@ -37,7 +37,7 @@ const messagesError = {
 };
 /* la localisation des tournois dans une liste */
 const tournament = ["New York","San Francisco", "Seattle","Chicago","Boston","Portland"];
-/*  objet contenant toutes données saisies dans le formulaire validité ou erreur */
+/*  objet pour insérer toutes les données saisies dans le formulaire  */
 let responses = {
   isValid: false,
   data: {
@@ -47,8 +47,8 @@ let responses = {
     birthdate: "",
     quantity: "",
     location: "",
-    cgu: "non coché",
-    next: false
+    cgu: "",
+    next: ""
   }   
 }
 
@@ -192,18 +192,16 @@ function validateConditions() {
   if (generalCondition.checked) {
      /* pas d'affichage du message d'erreur conditions d'utilisation*/
     document.querySelector('.use-error').innerText = '';
-    responses.data.cgu = "coché";
     return true;
   }
   /* affichage du message d'erreur conditions d'utilisation*/
     document.querySelector('.use-error').innerText = messagesError.useError;
-    responses.data.cgu = "non coché";
     return false;
 }
 
 /* case prochaine évenement pour récupérer coché ou non coché */
 function checkEvent() {
-  (nextEven.checked) ? responses.data.next = "coché" : responses.data.next = "non coché";
+  responses.data.next = nextEven.checked
 }
 
 /* vérification que les saisies du formulaires sont validées */
@@ -217,10 +215,11 @@ function validateForm() {
   responses.data.email = email.value;
   responses.data.birthdate = birthdate.value;
   responses.data.quantity = quantity.value;
-  responses.data.next = nextEven.value;
+  responses.data.cgu = validateConditions();
   checkEvent();
 
-  console.log(responses); /* phase développement contrôle des étapes   */
+  /* phase développement contrôle des étapes   
+  console.log("les informations saisies avant contrôle:",responses); */
 
   if (
     validateFirst() &&
@@ -257,10 +256,11 @@ function validateForm() {
       location.reload(); 
     });
   }
-  console.log(responses);  /* phase développement contrôle des étapes   */
+  /* phase développement contrôle des étapes   */
+  console.log("les informations saisies après contrôle: ", responses);  
 }
 
-/* évènement du submit formulaire et vérifications saisies du formulaire */
+/* évènement du submit formulaire et vérification des saisies du formulaire */
 form.addEventListener('submit', (e) => { 
     e.preventDefault();  /* ne pas recharger la modale avec le click submit */
     validateInputs();
